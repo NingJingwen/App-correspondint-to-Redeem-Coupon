@@ -53,13 +53,13 @@
                     </ListView>
                 </TabContentItem>
                 <TabContentItem>
-                    <StackLayout class="nt-form">
-                        <Image
-                            src="https://www.google.com/imgres?imgurl=https%3A%2F%2Fimg.jk51.com%2Fimg_jk51%2F486664192.jpeg&imgrefurl=https%3A%2F%2Fmts.jk51.com%2Ftushuo%2F10756251.html&tbnid=sLgy2H9oB2_7ZM&vet=12ahUKEwj68rWKsKztAhVXAaYKHWROA3wQMygIegUIARCiAQ..i&docid=2Ni64c6v50RK0M&w=500&h=500&q=%E6%9C%AA%E7%99%BB%E5%BD%95%E7%9A%84%E5%A4%B4%E5%83%8F&ved=2ahUKEwj68rWKsKztAhVXAaYKHWROA3wQMygIegUIARCiAQ" />
-                        <Label text="Name" class="h2" />
-                        <Label text="Login/Logoff" class="h2" @tap="onLoginTap"/>
-                        <Label text=" My Redeemed Coupons" class="h2" />
-                    </StackLayout>
+                    <ListView for="option in options" @itemTap="onLoginTap">
+                        <v-template>
+                            <StackLayout orientation="vertical" class="nt-form">
+                                <Label :text="option.name" class="h2" />
+                            </StackLayout>
+                        </v-template>
+                    </ListView>
                 </TabContentItem>
             </BottomNavigation>
         </StackLayout>
@@ -70,9 +70,15 @@
     import CouponsDetail from "./CouponsDetail";
     import Mall from "./Mall";
     import Coin from "./Coin";
+    import Login from "./Login";
 
     export default {
         methods: {
+            onLoginTap: function(args) {
+                console.log("Item with index: " + args.index + " tapped");
+                console.log("Product tapped: " + args.item);
+                this.$navigateTo(Login, {});
+            },
             onItemTap: function(args) {
                 console.log("Item with index: " + args.index + " tapped");
                 console.log("Product tapped: " + args.item.Restaurant);
@@ -104,10 +110,11 @@
                 console.log("Mall tapped: " + arg.item.name);
                 var incoins = [];
                 this.coupons.forEach(function(ele) {
-                    if ((arg.item.thresholdL < ele.Coins)&&(ele.Coins<= arg.item
-                        .thresholdR)) {
+                    if (
+                        arg.item.thresholdL < ele.Coins &&
+                        ele.Coins <= arg.item.thresholdR
+                    ) {
                         incoins.push(ele);
-                        console.log(arg.item.thresholdR);
                     }
                 });
                 this.$navigateTo(Coin, {
@@ -142,20 +149,27 @@
                         name: "APM"
                     }
                 ],
+                options: [{
+                        name: "Login"
+                    },
+                    {
+                        name: "My Redeemed Coupons"
+                    }
+                ],
                 coins: [{
                         name: "Coins<=20",
                         thresholdL: 0,
-                        thresholdR: 20,
+                        thresholdR: 20
                     },
                     {
                         name: "20<Coins<=40",
                         thresholdL: 20,
-                        thresholdR: 40,
+                        thresholdR: 40
                     },
                     {
                         name: "Coins>40",
                         thresholdL: 40,
-                        thresholdR: 88888888,
+                        thresholdR: 8888888888
                     }
                 ]
             };

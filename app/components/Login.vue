@@ -21,7 +21,7 @@
                     username: this.usernameValue
                 };
                 var response = await fetch(
-                        "https: //438a9fb51a87.ngrok.io/user/login",
+                        global.baseUrl+"/user/login",
                     {
                         method: " POST ",
                         headers: {
