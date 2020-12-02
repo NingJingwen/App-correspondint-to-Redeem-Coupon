@@ -5,7 +5,7 @@ import HelloWorld from './components/HelloWorld';
 // Uncommment the following to see NativeScript-Vue output logs
 Vue.config.silent = true;
 
-global.baseUrl = "https://d386b1cf0315.ngrok.io";
+global.baseUrl = "https://438a9fb51a87.ngrok.io";
 
 new Vue({
 

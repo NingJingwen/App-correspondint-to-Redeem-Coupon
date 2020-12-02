@@ -53,12 +53,13 @@
                     </ListView>
                 </TabContentItem>
                 <TabContentItem>
-                    <ScrollView>
-                        <StackLayout class="nt-form">
-                            <Label text="Login/Logoff" class="h2" />
-                            <Label text="My Redeemed Coupons" class="h2" />
-                        </StackLayout>
-                    </ScrollView>
+                    <StackLayout class="nt-form">
+                        <Image
+                            src="https://www.google.com/imgres?imgurl=https%3A%2F%2Fimg.jk51.com%2Fimg_jk51%2F486664192.jpeg&imgrefurl=https%3A%2F%2Fmts.jk51.com%2Ftushuo%2F10756251.html&tbnid=sLgy2H9oB2_7ZM&vet=12ahUKEwj68rWKsKztAhVXAaYKHWROA3wQMygIegUIARCiAQ..i&docid=2Ni64c6v50RK0M&w=500&h=500&q=%E6%9C%AA%E7%99%BB%E5%BD%95%E7%9A%84%E5%A4%B4%E5%83%8F&ved=2ahUKEwj68rWKsKztAhVXAaYKHWROA3wQMygIegUIARCiAQ" />
+                        <Label text="Name" class="h2" />
+                        <Label text="Login/Logoff" class="h2" @tap="onLoginTap"/>
+                        <Label text=" My Redeemed Coupons" class="h2" />
+                    </StackLayout>
                 </TabContentItem>
             </BottomNavigation>
         </StackLayout>
