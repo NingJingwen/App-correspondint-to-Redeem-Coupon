@@ -27,31 +27,32 @@
         methods: {
             onRedeemTap: async function() {
                 var result = await confirm({
-                    title: "Confirm to place order?",
-                    message: "Sending to httpbin.org",
+                    title: "Are your sure to redeem Coupons?",
                     okButtonText: "Yes",
                     cancelButtonText: "Cancel"
                 });
                 if (result) {
-                    var response = await fetch(
-                    "https://httpbin.org/post", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(this.inCart)
-                    });
+                    var response = await fetch(global.baseUrl+"/user/" + this.user.id +
+                        "/coupons/add/" + this.tappedProduct.id, {
+                            method: "POST"
+                        });
                     if (response.ok) {
-                        var data = await response.json();
-                        this.figures = data.json;
+                        await alert("Coupon Redeemed.");
+                        this.navigateBack();
+                    } else if (response.status == 404) {
+                        var msg = await response.json();
+                        alert(msg);
                     } else {
-                        console.log(response.status);
+                        alert(response.status + ": " + response
+                            .statusText);
                     }
+                } else {
+                    alert("cancelled");
                 }
             },
-            
             onMapTap: function(args) {
-                console.log("Item with index: " + args.index + " tapped");
+                console.log("Item with index: " + args.index +
+                    " tapped");
                 console.log("Map tapped: " + args.item);
                 this.$navigateTo(MapDetail, {
                     transition: {},
@@ -59,10 +60,22 @@
                 });
             }
         },
+        async mounted() {
+            var response = await fetch(global.baseUrl +
+                "/GetUser");
+            if (response.ok) {
+                this.user = await response.json();
+                console.log(JSON.stringify(this.user));
+            } else {
+                console.log(response.statusText);
+            }
+        },
 
         props: ["tappedProduct"],
         data() {
-            return {};
+            return {
+                user: []
+            };
         }
     };
 </script>

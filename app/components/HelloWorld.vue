@@ -77,7 +77,7 @@
             onLoginTap: function(args) {
                 console.log("Item with index: " + args.index + " tapped");
                 console.log("Product tapped: " + args.item);
-                this.$navigateTo(Login, {});
+                this.$navigateTo(Login);
             },
             onItemTap: function(args) {
                 console.log("Item with index: " + args.index + " tapped");
@@ -85,7 +85,7 @@
                 this.$navigateTo(CouponsDetail, {
                     transition: {},
                     props: {
-                        tappedProduct: args.item
+                        tappedProduct: args.item,
                     }
                 });
             },

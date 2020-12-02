@@ -20,34 +20,30 @@
                     password: this.passwordValue,
                     username: this.usernameValue
                 };
-                var response = await fetch(
-                        global.baseUrl+"/user/login",
-                    {
-                        method: " POST ",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(reqBody)
-                    }
-            );
-            if (response.ok) {
-                var user = await response.json();
-                alert(" Welcome back, " + user.username);
-                this.$navigateBack();
-            } else if (response.status == 401) {
-                var msg = await response.json();
-                alert(msg);
-            } else {
-                alert(response.statusText);
+                var response = await fetch(global.baseUrl +
+                "/user/login", {
+                    method: "POST",
+                    body: JSON.stringify(reqBody)
+                });
+                console.log(response);
+                if (response.ok) {
+                    var user = await response.json();
+                    await alert(" Welcome back, " + user.username);
+                    this.$navigateBack();
+                } else if (response.status == 401) {
+                    var msg = await response.json();
+                    alert(msg);
+                } else {
+                    alert(response.statusText);
+                }
             }
+        },
+        data() {
+            return {
+                usernameValue: "",
+                passwordValue: ""
+            };
         }
-    },
-    data() {
-        return {
-            usernameValue: "",
-            passwordValue: ""
-        };
-    }
     };
 </script>
 
