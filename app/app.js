@@ -6,6 +6,9 @@ import HelloWorld from './components/HelloWorld';
 Vue.config.silent = true;
 
 global.baseUrl = "https://438a9fb51a87.ngrok.io";
+global.user = {
+    "username": "",
+};
 
 new Vue({
 
