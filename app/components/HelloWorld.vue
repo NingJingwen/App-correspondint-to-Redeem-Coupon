@@ -84,6 +84,7 @@
     import Mall from "./Mall";
     import Coin from "./Coin";
     import Login from "./Login";
+    import MyRedeemedCoupons from "./MyRedeemedCoupons";
 
     export default {
         methods: {
@@ -100,22 +101,44 @@
                 } else {
                     this.user.username = "";
                     this.options = [{
-                            name: "Login"
-                        },
-                        {
-                            name: "My Redeemed Coupons"
-                        }
-                    ];
+                        name: "Login"
+                    }];
                 }
             },
             onLoginTap: function(args) {
-                console.log("Item with index: " + args.index + " tapped");
-                console.log("Product tapped: " + args.item);
-                this.$navigateTo(Login);
+                if (this.options[0].name == "Login") {
+                    console.log("Item with index: " + args.index +
+                        " tapped");
+                    console.log("Product tapped: " + args.item);
+                    this.$navigateTo(Login);
+                } else if (this.options[1].name == "My Redeemed Coupons") {
+                    this.$navigateTo(MyRedeemedCoupons);
+                }
+                //     var r = await confirm({
+                //         title: "Confirm Logout ?",
+                //         okButtonText: "Yes",
+                //         cancelButtonText: "Cancel"
+                //     });
+                //     if (r) {
+                //         var response = await fetch(
+                //             "/user/logout", {
+                //                 method: "POST"
+                //             });
+                //         if (response.ok) {
+                //             alert("User Logout.");
+                //         } else {
+                //             alert(response.status + ": " +response.statusText);
+                //         }
+                //     } else {
+                //         alert("cancelled");
+                //     }
+                // }
             },
             onItemTap: function(args) {
-                console.log("Item with index: " + args.index + " tapped");
-                console.log("Product tapped: " + args.item.Restaurant);
+                console.log("Item with index: " + args.index +
+                    " tapped");
+                console.log("Product tapped: " + args.item
+                    .Restaurant);
                 this.$navigateTo(CouponsDetail, {
                     transition: {},
                     props: {
@@ -124,7 +147,8 @@
                 });
             },
             onMallTap: function(arg) {
-                console.log("Item with index: " + arg.index + " tapped");
+                console.log("Item with index: " + arg.index +
+                    " tapped");
                 console.log("Mall tapped: " + arg.item.name);
                 console.log(global.user.username);
                 console.log(this.user[0].username);
@@ -142,13 +166,16 @@
                 });
             },
             onCoinTap: function(arg) {
-                console.log("Item with index: " + arg.index + " tapped");
+                console.log("Item with index: " + arg.index +
+                    " tapped");
                 console.log("Mall tapped: " + arg.item.name);
                 var incoins = [];
                 this.coupons.forEach(function(ele) {
                     if (
-                        arg.item.thresholdL < ele.Coins &&
-                        ele.Coins <= arg.item.thresholdR
+                        arg.item.thresholdL < ele
+                        .Coins &&
+                        ele.Coins <= arg.item
+                        .thresholdR
                     ) {
                         incoins.push(ele);
                     }
@@ -162,9 +189,10 @@
             }
         },
         async mounted() {
-            var response = await fetch(global.baseUrl + "/AllCoupons", {
-                method: "GET"
-            });
+            var response = await fetch(global.baseUrl +
+                "/AllCoupons", {
+                    method: "GET"
+                });
             if (response.ok) {
                 this.coupons = await response.json();
                 console.log(JSON.stringify(this.coupons));
@@ -189,12 +217,8 @@
                     }
                 ],
                 options: [{
-                        name: "Login"
-                    },
-                    {
-                        name: "My Redeemed Coupons"
-                    }
-                ],
+                    name: "Login"
+                }],
                 coins: [{
                         name: "Coins<=20",
                         thresholdL: 0,
