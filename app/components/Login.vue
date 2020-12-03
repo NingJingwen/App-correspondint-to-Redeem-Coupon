@@ -28,7 +28,7 @@
                 console.log(response);
                 if (response.ok) {
                     var user = await response.json();
-                    global.user.username=user.username
+                    global.user.username = user.username;
                     await alert(" Welcome back, " + user.username);
                     this.$navigateBack();
                 } else if (response.status == 401) {
