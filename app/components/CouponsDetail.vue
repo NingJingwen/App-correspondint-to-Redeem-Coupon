@@ -8,12 +8,15 @@
                     <Label class="h2" :text="tappedProduct.Restaurant" />
                     <Label class="body" :text="tappedProduct.Detail" />
                     <Label class="body" :text="tappedProduct.Mall" />
-                    <Label class="body" :text="tappedProduct.Coins" />
-                    <Label class="body" :text="tappedProduct.Expired_Data" />
-                    <Button class="h2 -primary -rounded-lg" text="Redeem"
-                        @tap="onRedeemTap" />
-                    <Button class="h2 -primary -rounded-lg" text="Address"
-                        @tap="onMapTap" />
+                    <Label class="body" :text="'Coin:'+tappedProduct.Coins" />
+                    <Label class="body"
+                        :text="'Expired Date:'+tappedProduct.Expired_Date" />
+                    <StackLayout orientation="horizontal">
+                        <Button class="h2 -primary -rounded-lg" text="Redeem"
+                            width="40%" @tap="onRedeemTap" />
+                        <Button class="h2 -primary -rounded-lg" text="Address"
+                            width="40%" @tap="onMapTap" />
+                    </StackLayout>
                 </StackLayout>
             </ScrollView>
         </StackLayout>
@@ -32,10 +35,15 @@
                     cancelButtonText: "Cancel"
                 });
                 if (result) {
-                    var response = await fetch(global.baseUrl+"/user/" + this.user.id +
-                        "/coupons/add/" + this.tappedProduct.id, {
+                    var response = await fetch(
+                        global.baseUrl +
+                        "/user/" +
+                        this.user.id +
+                        "/coupons/add/" +
+                        this.tappedProduct.id, {
                             method: "POST"
-                        });
+                        }
+                    );
                     if (response.ok) {
                         await alert("Coupon Redeemed.");
                         this.navigateBack();
@@ -51,18 +59,20 @@
                 }
             },
             onMapTap: function(args) {
-                console.log("Item with index: " + args.index +
-                    " tapped");
-                console.log("Map tapped: " + args.item);
+                var Restaurant = "";
+                Restaurant = encodeURIComponent(this.tappedProduct
+                    .Restaurant);
+                console.log(Restaurant);
                 this.$navigateTo(MapDetail, {
                     transition: {},
-                    props: {}
+                    props: {
+                        tappedMap: Restaurant
+                    }
                 });
             }
         },
         async mounted() {
-            var response = await fetch(global.baseUrl +
-                "/GetUser");
+            var response = await fetch(global.baseUrl + "/GetUser");
             if (response.ok) {
                 this.user = await response.json();
                 console.log(JSON.stringify(this.user));

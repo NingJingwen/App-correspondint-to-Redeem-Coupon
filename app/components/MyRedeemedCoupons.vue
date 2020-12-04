@@ -1,7 +1,7 @@
 <template>
     <Page>
         <StackLayout>
-            <ListView for="restaurant in this.coupons" @itemTap="onItemTap">
+            <ListView for="restaurant in coupons" @itemTap="onItemTap">
                 <v-template>
                     <StackLayout orientation="vertical">
                         <Label :text="restaurant.Restaurant" class="h2"/>

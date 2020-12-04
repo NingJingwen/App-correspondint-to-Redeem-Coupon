@@ -28,8 +28,8 @@
                                 <Image :src="coupon.Image" height="300"
                                     stretch="aspectFill" />
                                 <Label :text="coupon.Restaurant" class="h2" />
-                                <Label :text="coupon.Detail" class="h2" />
-                                <Label :text="coupon.Coins" class="h2" />
+                                <Label :text="coupon.Detail" class="h3" />
+                                <Label :text="'Coin:'+coupon.Coins" class="h3" />
                             </StackLayout>
                         </v-template>
                     </ListView>
@@ -101,44 +101,51 @@
                 } else {
                     this.user.username = "";
                     this.options = [{
-                        name: "Login"
-                    }];
+                            name: "Login"
+                        },
+                        {
+                            name: "My Redeemed Coupons"
+                        }
+                    ];
                 }
             },
-            onLoginTap: function(args) {
-                if (this.options[0].name == "Login") {
-                    console.log("Item with index: " + args.index +
-                        " tapped");
-                    console.log("Product tapped: " + args.item);
-                    this.$navigateTo(Login);
-                } else if (this.options[1].name == "My Redeemed Coupons") {
-                    this.$navigateTo(MyRedeemedCoupons);
-                }
-                //     var r = await confirm({
-                //         title: "Confirm Logout ?",
-                //         okButtonText: "Yes",
-                //         cancelButtonText: "Cancel"
-                //     });
-                //     if (r) {
-                //         var response = await fetch(
-                //             "/user/logout", {
-                //                 method: "POST"
-                //             });
-                //         if (response.ok) {
-                //             alert("User Logout.");
-                //         } else {
-                //             alert(response.status + ": " +response.statusText);
-                //         }
-                //     } else {
-                //         alert("cancelled");
-                //     }
-                // }
+            onLoginTap: async function(args) {
+                if (args.index == 0) {
+                    if (this.options[0].name == "Login") {
+                        this.$navigateTo(Login);
+                    } else if (this.options[0].name == "Logoff") {
+                        var r = await confirm({
+                            title: "Confirm Logout ?",
+                            okButtonText: "Yes",
+                            cancelButtonText: "Cancel"
+                        });
+                        if (r) {
+                            var response = await fetch(
+                                global.baseUrl + "/user/logout", {
+                                    method: "POST"
+                                }
+                            );
+                            if (response.ok) {
+                                alert("User Logout.");
+                            } else {
+                                alert(response.status + ": " + response
+                                    .statusText);
+                            }
+                        } else {
+                            alert("cancelled");
+                        }
+                    };
+                } else if (args.index == 1) {
+                    if (!global.user.username) {
+                        alert("please login first!")
+                    } else {
+                        this.$navigateTo(MyRedeemedCoupons)
+                    }
+                };
             },
             onItemTap: function(args) {
-                console.log("Item with index: " + args.index +
-                    " tapped");
-                console.log("Product tapped: " + args.item
-                    .Restaurant);
+                console.log("Item with index: " + args.index + " tapped");
+                console.log("Product tapped: " + args.item.Restaurant);
                 this.$navigateTo(CouponsDetail, {
                     transition: {},
                     props: {
@@ -147,8 +154,7 @@
                 });
             },
             onMallTap: function(arg) {
-                console.log("Item with index: " + arg.index +
-                    " tapped");
+                console.log("Item with index: " + arg.index + " tapped");
                 console.log("Mall tapped: " + arg.item.name);
                 console.log(global.user.username);
                 console.log(this.user[0].username);
@@ -166,16 +172,13 @@
                 });
             },
             onCoinTap: function(arg) {
-                console.log("Item with index: " + arg.index +
-                    " tapped");
+                console.log("Item with index: " + arg.index + " tapped");
                 console.log("Mall tapped: " + arg.item.name);
                 var incoins = [];
                 this.coupons.forEach(function(ele) {
                     if (
-                        arg.item.thresholdL < ele
-                        .Coins &&
-                        ele.Coins <= arg.item
-                        .thresholdR
+                        arg.item.thresholdL < ele.Coins &&
+                        ele.Coins <= arg.item.thresholdR
                     ) {
                         incoins.push(ele);
                     }
@@ -189,10 +192,9 @@
             }
         },
         async mounted() {
-            var response = await fetch(global.baseUrl +
-                "/AllCoupons", {
-                    method: "GET"
-                });
+            var response = await fetch(global.baseUrl + "/AllCoupons", {
+                method: "GET"
+            });
             if (response.ok) {
                 this.coupons = await response.json();
                 console.log(JSON.stringify(this.coupons));
@@ -217,8 +219,12 @@
                     }
                 ],
                 options: [{
-                    name: "Login"
-                }],
+                        name: "Login"
+                    },
+                    {
+                        name: "My Redeemed Coupons"
+                    }
+                ],
                 coins: [{
                         name: "Coins<=20",
                         thresholdL: 0,

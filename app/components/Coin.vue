@@ -1,12 +1,14 @@
 <template>
     <Page>
-        <ListView for="restaurant in tappedCoin" @itemTap="onItemTap">
-            <v-template>
-                <StackLayout orientation="vertical">
-                    <Label :text="restaurant.Restaurant" class="h2" />
-                </StackLayout>
-            </v-template>
-        </ListView>
+        <StackLayout>
+            <ListView for="restaurant in tappedCoin" @itemTap="onItemTap">
+                <v-template>
+                    <StackLayout orientation="vertical">
+                        <Label :text="restaurant.Restaurant" class="h2" />
+                    </StackLayout>
+                </v-template>
+            </ListView>
+        </StackLayout>
     </Page>
 </template>
 
