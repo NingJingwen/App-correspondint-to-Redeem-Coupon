@@ -1,5 +1,5 @@
 <template>
-    <Page @navigatedTo="update">
+    <Page @navigatedTo="update" @loaded="update">
         <ActionBar title="Redeem App" />
         <StackLayout>
             <BottomNavigation height="400px">
@@ -29,7 +29,8 @@
                                     stretch="aspectFill" />
                                 <Label :text="coupon.Restaurant" class="h2" />
                                 <Label :text="coupon.Detail" class="h3" />
-                                <Label :text="'Coin:'+coupon.Coins" class="h3" />
+                                <Label :text="'Coin:'+coupon.Coins"
+                                    class="h3" />
                             </StackLayout>
                         </v-template>
                     </ListView>
@@ -127,6 +128,15 @@
                             );
                             if (response.ok) {
                                 alert("User Logout.");
+                                this.options = [{
+                                        name: "Login"
+                                    },
+                                    {
+                                        name: "My Redeemed Coupons"
+                                    }
+                                ];
+                                this.user[0].username="";
+								global.user.username="";
                             } else {
                                 alert(response.status + ": " + response
                                     .statusText);
@@ -134,14 +144,14 @@
                         } else {
                             alert("cancelled");
                         }
-                    };
+                    }
                 } else if (args.index == 1) {
                     if (!global.user.username) {
-                        alert("please login first!")
+                        alert("please login first!");
                     } else {
-                        this.$navigateTo(MyRedeemedCoupons)
+                        this.$navigateTo(MyRedeemedCoupons);
                     }
-                };
+                }
             },
             onItemTap: function(args) {
                 console.log("Item with index: " + args.index + " tapped");
