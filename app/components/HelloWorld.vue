@@ -65,7 +65,7 @@
                                 horizontalAlignment="center" />
                         </StackLayout>
                         <ListView for="option in options"
-                            @itemTap="onLoginTap" height="150">
+                            @itemTap="onFlexTap" height="150">
                             <v-template>
                                 <StackLayout orientation="vertical"
                                     class="nt-form">
@@ -110,7 +110,7 @@
                     ];
                 }
             },
-            onLoginTap: async function(args) {
+            onFlexTap: async function(args) {
                 if (args.index == 0) {
                     if (this.options[0].name == "Login") {
                         this.$navigateTo(Login);
@@ -225,6 +225,12 @@
                         name: "Pacific Place"
                     },
                     {
+                        name: "New Town Plaza"
+                    },
+                    {
+                        name: "Tsuen Wan Plaza"
+                    },
+                    {
                         name: "APM"
                     }
                 ],
@@ -236,18 +242,18 @@
                     }
                 ],
                 coins: [{
-                        name: "Coins<=20",
+                        name: "Coins<=300",
                         thresholdL: 0,
-                        thresholdR: 20
+                        thresholdR: 300
                     },
                     {
-                        name: "20<Coins<=40",
-                        thresholdL: 20,
-                        thresholdR: 40
+                        name: "300<Coins<600",
+                        thresholdL: 300,
+                        thresholdR: 599
                     },
                     {
-                        name: "Coins>40",
-                        thresholdL: 40,
+                        name: "Coins>=600",
+                        thresholdL: 599,
                         thresholdR: 8888888888
                     }
                 ]

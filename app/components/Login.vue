@@ -25,7 +25,6 @@
                     method: "POST",
                     body: JSON.stringify(reqBody)
                 });
-                console.log(response);
                 if (response.ok) {
                     var user = await response.json();
                     global.user.username = user.username;
